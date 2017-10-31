@@ -10,16 +10,16 @@ CManage_book::CManage_book()
 	cout << "添加书籍输入1\t删除书籍输入2\t修改书籍输入3" << endl;
 	int import_num = 0;
 	cin >> import_num;
-	cin.clear();
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	//cin.clear();
+	//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	while (1)
 	{
 		if (import_num != 1 && import_num != 2 && import_num != 3)
 		{
 			cout << "输入有误，请重新输入" << endl;
 			cin >> import_num;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			//cin.clear();
+			//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		}
 		else
 			break;
@@ -50,13 +50,17 @@ void CManage_book::create_book()
 {
 	cout << "请输出书名" << endl;
 	cin >> book_name;
-	cin.clear();
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	//cin.clear();
+	//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	//初始化MySQL连接句柄
 	MYSQL *mysql = NULL;
 	mysql = mysql_init((MYSQL *)0);
-	char* command;
-	snprintf(command, "select book_name from library where book_name = '%s'", book_name);
+	char strsql[1000] = "select book_name from library where book_name = '";
+	strcat_s(strsql, sizeof(strsql), book_name);
+	strcat_s(strsql, sizeof(strsql), "'");
+	char* command = strsql;
+	
+	//sprintf_s(command,sizeof(command), "select book_name from library where book_name = '%s'", book_name);
 	mysql_real_connect
 	(
 		mysql,
@@ -104,7 +108,7 @@ void CManage_book::create_book()
 		}
 		printf("\n");
 	}
-	if (bookname[1] != "\0")
+	if (bookname[1] != NULL)
 	{
 		cout << "该书已存在" << endl;
 	}
@@ -112,22 +116,35 @@ void CManage_book::create_book()
 	{
 		cout << "请输入该书的编号" << endl;
 		cin >> book_id;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		//cin.clear();
+		//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cout << "请输入该书的作者" << endl;
 		cin >> book_author;
 		cout << "请输入该书的出版社" << endl;
 		cin >> book_press;
 		cout << "请输入该书的出版时间" << endl;
 		cin >> book_time;
-		cout << "请输出书名" << endl;
-		cin >> book_name;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		/*cout << "请输出书名" << endl;
+		cin >> book_name;*/
+		//cin.clear();
+		//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		//初始化MySQL连接句柄
 		MYSQL *mysql = NULL;
 		mysql = mysql_init((MYSQL *)0);
-		snprintf(command, "insert into library (book_name,book_id,book_author,book_press,book_time) values (%s,%s,%s,%s,%s)", book_name,book_id, book_author, book_press, book_time);
+		strcpy_s(strsql, sizeof(strsql), "insert into library (id,book_amount,book_name,book_id,book_author,book_press,book_time) values (");
+		strcat_s(strsql, sizeof(strsql), "2,1,'");
+		strcat_s(strsql, sizeof(strsql), book_name);
+		strcat_s(strsql, sizeof(strsql), "','");
+		strcat_s(strsql, sizeof(strsql), book_id);
+		strcat_s(strsql, sizeof(strsql), "','");
+		strcat_s(strsql, sizeof(strsql), book_author);
+		strcat_s(strsql, sizeof(strsql), "','");
+		strcat_s(strsql, sizeof(strsql), book_press);
+		strcat_s(strsql, sizeof(strsql), "','");
+		strcat_s(strsql, sizeof(strsql), book_time);
+		strcat_s(strsql, sizeof(strsql), "')");
+		cout << command << endl;
+		//sprintf_s(command,sizeof(command), "insert into library (book_name,book_id,book_author,book_press,book_time) values (%s,%s,%s,%s,%s)", book_name,book_id, book_author, book_press, book_time);
 		mysql_real_connect
 		(
 			mysql,
@@ -158,13 +175,13 @@ void CManage_book::alter_book()
 {
 	cout << "请输出书名" << endl;
 	cin >> book_name;
-	cin.clear();
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	//cin.clear();
+	//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	//初始化MySQL连接句柄
 	MYSQL *mysql = NULL;
 	mysql = mysql_init((MYSQL *)0);
-	char* command;
-	snprintf(command, "select book_name,book_id,book_author,book_press,book_time from library where book_name = '%s'", book_name);
+	char* command = "qwerwqerasdfasdfasdfasdfasdfzxcvsadfasdfasdfasdfasdfasdfasdfasdf";
+	sprintf_s(command,sizeof(command), "select book_name,book_id,book_author,book_press,book_time from library where book_name = '%s'", book_name);
 	mysql_real_connect
 	(
 		mysql,
@@ -205,8 +222,10 @@ void CManage_book::alter_book()
 	MYSQL_ROW row;
 	row = mysql_fetch_row(res);
 	int i = 0;
-	while (i < field_count)
+	int j = 0;
+	while (j < field_count)
 	{
+		i = 0;
 		bookname[i] = row[i];
 		printf("%s\t", row[i]);
 		i++;
@@ -222,6 +241,7 @@ void CManage_book::alter_book()
 		booktime[i] = row[i];
 		printf("%s\t", row[i]);
 		i++;
+		j++;
 		printf("\n");
 	}
 	if (bookname[0] == "\0")
@@ -233,16 +253,16 @@ void CManage_book::alter_book()
 		cout << "是（1）否（0）修改？" << endl;
 		int choice = -1;
 		cin >> choice;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		//cin.clear();
+		//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		if (choice == 1)
 		{
 			cout << "请输入该书的书名" << endl;
 			cin >> book_name;
 			cout << "请输入该书的编号" << endl;
 			cin >> book_id;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			//cin.clear();
+			//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			cout << "请输入该书的作者" << endl;
 			cin >> book_author;
 			cout << "请输入该书的出版社" << endl;
@@ -251,12 +271,12 @@ void CManage_book::alter_book()
 			cin >> book_time;
 			cout << "请输出书名" << endl;
 			cin >> book_name;
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			//cin.clear();
+			//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			//初始化MySQL连接句柄
 			MYSQL *mysql = NULL;
 			mysql = mysql_init((MYSQL *)0);
-			snprintf(command, "updata library set book_name = '%s',book_id = '%s',book_author = '%s',book_press = '%s',book_time = '%s')", book_name, book_id, book_author, book_press, book_time);
+			sprintf_s(command,sizeof(command), "updata library set book_name = '%s',book_id = '%s',book_author = '%s',book_press = '%s',book_time = '%s'where book_name = '%s')", book_name, book_id, book_author, book_press, book_time,bookname[0]);
 			mysql_real_connect
 			(
 				mysql,
@@ -281,6 +301,8 @@ void CManage_book::alter_book()
 				exit(-1);
 			}
 		}
+		else if (choice != 0)
+			cout << "输入有误" << endl;
 	}
 }
 
@@ -288,13 +310,13 @@ void CManage_book::delete_book()
 {
 	cout << "请输出书名" << endl;
 	cin >> book_name;
-	cin.clear();
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	//cin.clear();
+	//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	//初始化MySQL连接句柄
 	MYSQL *mysql = NULL;
 	mysql = mysql_init((MYSQL *)0);
-	char* command;
-	snprintf(command, "select book_name,book_id,book_author,book_press,book_time from library where book_name = '%s'", book_name);
+	char* command = "qwerwqerasdfasdfasdfasdfasdfzxcvsadfasdfasdfasdfasdfasdfasdfasdf";
+	sprintf_s(command,sizeof(command), "select book_name,book_id,book_author,book_press,book_time from library where book_name = '%s'", book_name);
 	mysql_real_connect
 	(
 		mysql,
@@ -363,14 +385,14 @@ void CManage_book::delete_book()
 		cout << "是（1）否（0）删除？" << endl;
 		int choice = -1;
 		cin >> choice;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		//cin.clear();
+		//cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		if (choice == 1)
 		{
 			//初始化MySQL连接句柄
 			MYSQL *mysql = NULL;
 			mysql = mysql_init((MYSQL *)0);
-			snprintf(command, "delete * from library where book_name = '%s'", book_name);
+			sprintf_s(command,sizeof(command), "delete * from library where book_name = '%s'", book_name);
 			mysql_real_connect
 			(
 				mysql,

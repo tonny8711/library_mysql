@@ -19,12 +19,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Borrow_book.h" />
     <ClInclude Include="Library.h" />
     <ClInclude Include="Manage_book.h" />
+    <ClInclude Include="Reader.h" />
+    <ClInclude Include="Return.h" />
+    <ClInclude Include="Search.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Borrow_book.cpp" />
     <ClCompile Include="Library.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Manage_book.cpp" />
+    <ClCompile Include="Reader.cpp" />
+    <ClCompile Include="Return.cpp" />
+    <ClCompile Include="Search.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4E2B7DB3-5621-4CD8-B7A4-BBC1D9979B0D}</ProjectGuid>
