@@ -6,5 +6,10 @@ class CSearch :
 public:
 	CSearch();
 	~CSearch();
+	void search_bookid();
+	void search_bookname();
+	void search_bookauthor();
+	void search_bookpress();
+	void search_booktime();
 };
 

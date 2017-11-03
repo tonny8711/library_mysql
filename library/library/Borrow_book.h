@@ -6,5 +6,6 @@ class CBorrow_book :
 public:
 	CBorrow_book();
 	~CBorrow_book();
+	
 };
 

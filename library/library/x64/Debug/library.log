@@ -1,9 +1,4 @@
-﻿  Manage_book.cpp
-f:\github\library_mysql\library\library\manage_book.cpp(80): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
-f:\github\library_mysql\library\library\manage_book.cpp(164): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
-f:\github\library_mysql\library\library\manage_book.cpp(201): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
-f:\github\library_mysql\library\library\manage_book.cpp(296): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
-f:\github\library_mysql\library\library\manage_book.cpp(336): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
-f:\github\library_mysql\library\library\manage_book.cpp(412): warning C4267: “参数”: 从“size_t”转换到“unsigned long”，可能丢失数据
+﻿  Search.cpp
+f:\github\library_mysql\library\library\search.cpp(119): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
   library.vcxproj -> F:\GitHub\library_mysql\library\x64\Debug\library.exe
   library.vcxproj -> F:\GitHub\library_mysql\library\x64\Debug\library.pdb (Partial PDB)
